@@ -1,6 +1,7 @@
 import configparser
-#from db import DB as d
 from flask import Flask, request, render_template, jsonify, Response
+
+from load import Load
 
 app = Flask(__name__)
 
@@ -16,6 +17,12 @@ def load():
     if request.method == "GET":
         return render_template('load.html')
     elif request.method == "POST":
+        fname = request.form["media"]
+
+        if fname.startswith('zeeschuimer'):
+            Load().load_zeeschuimer(fname)
+        else:
+            Load().load(fname)
         return render_template('load.html')
     else:
         return render_template('load.html')
@@ -29,4 +36,15 @@ def project(id):
     else:
         #get data by proect id
         return render_template('project.html', projects = [])
+    
+@app.route('/project/<id>/timeline')
+def project(id):
+    if id is None:
+        projects = []
+        #get proejcts
+        return render_template('project.html', projects = projects)
+    else:
+        #get data by proect id
+        #projects = get_data_by_id
+        return render_template('timeline.html', projects = [])
   
