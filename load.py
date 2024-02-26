@@ -49,13 +49,15 @@ class Load():
         _fname = fname.split('-')
 
         if _fname[2] == "tiktok.com":
-            self._load_tiktok(fname)
+            project_id = self._create_hash(fname)
+            self._load_tiktok(project_id, fname)
         elif _fname[2] == "instagram.com":
-            self._load_instagram(fname)
+            project_id = self._create_hash(fname)
+            self._load_instagram(project_id, fname)
         else:
             raise socialException('Data Source not handled.')
         
-    def _load_tiktok(self, fname):
+    def _load_tiktok(self, project_id, fname):
         '''
         Handle Zeeschuimer export
         '''
@@ -63,18 +65,16 @@ class Load():
         if fname.endswith('.csv'):
             with open(fname, 'r') as fh:
                 data = csv.reader(fh.read())
-            
-            db = database()
-            project_id = self._create_hash(fname)
 
-            #projectid, threadid, author, unix_timestamp, music_name, music_id,
-            #music_url, video_url, hashtags
+            #do as a coroutine?
+            meta.download(project_id, data[15])
+
+            db = database()
+            
             for datum in range(1, len(data)):
                 db.insert_row(project_id, datum[1], datum[2], datum[10], datum[13], 
                               datum[14], datum[15], datum[16], datum[17], datum[24])
-                meta.download(project_id, fname)
-                
-                
+                       
         else:
             raise socialException('Please convert with Zeehaven')
         

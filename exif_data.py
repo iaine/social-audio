@@ -10,6 +10,7 @@ from database import database as db
 class Metadata():
 
     def download(self, projectid, url):
+        
         media_file = requests.get(url)
         if media_file.status_code == 200:
             fname = url.split('/')[:-1]
