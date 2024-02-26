@@ -39,7 +39,8 @@ class database():
         
         cur.execute("""CREATE TABLE IF NOT EXISTS features 
                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    projectid VARCHAR(255), 
+                    projectid VARCHAR(255),
+                    filename VARCHAR(255), 
                     feature VARCHAR(255), 
                     value VARCHAR(255),
                     );""")
@@ -82,8 +83,8 @@ class database():
 
         cur.execute("""
         INSERT INTO features VALUES
-        ({}, {}, {}, {}).
-         """.format(projectid, filename, field, value))
+        ({}. {}, {}, {}).
+         """.format(filename, field, value))
         self.con.commit()
         cur.close()
 
