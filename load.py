@@ -45,6 +45,8 @@ class Load():
     def load_zeeschuimer(self, fname):
         '''
         Handle the Zeeschuimer files ofr now
+        :param fname - data to be processes
+        :return project_id - project hash to link data
         '''
         _fname = fname.split('-')
 
@@ -56,6 +58,8 @@ class Load():
             self._load_instagram(project_id, fname)
         else:
             raise socialException('Data Source not handled.')
+        
+        return project_id
         
     def _load_tiktok(self, project_id, fname):
         '''
