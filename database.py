@@ -33,7 +33,7 @@ class database():
                     file VARCHAR(255), 
                     tags VARCHAR(255),
                     );""")
-
+        cur.close()
 
     def insert_row(self, projectid, threadid, author, unix_timestamp, music_name, music_id,
                    music_url, video_url, hashtags):
@@ -62,6 +62,7 @@ class database():
         ({}, {}).
          """.format(filename, tag))
         self.con.commit()
+        cur.close()
 
     def get_data_by_id(self, filename):
         '''
@@ -71,7 +72,7 @@ class database():
         '''
         cur = self.con.cursor()
         file_results = cur.fetchall("SELECT * FROM user_tags WHERE tags={}".format(filename))
-
+        cur.close()
         return file_results
     
     def get_data_by_tag(self, tags):
@@ -83,7 +84,7 @@ class database():
 
         cur = self.con.cursor()
         tag_results = cur.fetchall("SELECT * FROM user_tags WHERE tags={}".format(tags))
-
+        cur.close()
         return tag_results
     
     def get_data_by_tags(self, tags):
@@ -95,7 +96,7 @@ class database():
         tag = ','.join(tags)
         cur = self.con.cursor()
         tag_results = cur.fetchall("SELECT * FROM user_tags WHERE tags in ({})".format(tag))
-
+        cur.close()
         return tag_results
     
     def get_data_by_project_id(self, id):
