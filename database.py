@@ -74,7 +74,7 @@ class database():
         self.con.commit()
         cur.close()
 
-    def insert_features(self, projectid, field, value):
+    def insert_features(self, projectid, filename, field, value):
         '''
            Insert into feature table
         '''
@@ -82,8 +82,8 @@ class database():
 
         cur.execute("""
         INSERT INTO features VALUES
-        ({}, {}, {}).
-         """.format(projectid, field, value))
+        ({}, {}, {}, {}).
+         """.format(projectid, filename, field, value))
         self.con.commit()
         cur.close()
 
