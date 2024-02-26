@@ -53,9 +53,9 @@ class database():
          """.format(filename, tag))
         self.con.commit()
 
-    def get_data_by_file(self, filename):
+    def get_data_by_id(self, filename):
         '''
-        Get the original data by file name
+        Get the original data by project id
         :param filename - string of filename
         :return file_results - array
         '''
