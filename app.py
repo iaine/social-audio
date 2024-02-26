@@ -19,3 +19,14 @@ def load():
         return render_template('load.html')
     else:
         return render_template('load.html')
+    
+@app.route('/project/<id>')
+def project(id):
+    if id is None:
+        projects = []
+        #get proejcts
+        return render_template('project.html', projects = projects)
+    else:
+        #get data by proect id
+        return render_template('project.html', projects = [])
+  
