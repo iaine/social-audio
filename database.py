@@ -97,3 +97,14 @@ class database():
         tag_results = cur.fetchall("SELECT * FROM user_tags WHERE tags in ({})".format(tag))
 
         return tag_results
+    
+    def get_data_by_project_id(self, id):
+        '''
+        Get the original data by project id
+        :param id - string of projectid
+        :return project_results - array
+        '''
+        cur = self.con.cursor()
+        project_results = cur.fetchall("SELECT * FROM main WHERE projectid = {}".format(id))
+        cur.close()
+        return project_results
