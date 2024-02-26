@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        {% if error %}
+
+        <p class="error">{error}</p>
+        {% endif %}
+        <p> Load Data</p>
+        <form action="load" method="post">
+            <input type="file" name="media" >Load Media</input>
+            <input type="button" name="Submit" value="Load" >Load Media</input>
+            </form>
+    </body>
+</html>
