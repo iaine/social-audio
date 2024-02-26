@@ -1,10 +1,13 @@
 '''
 Load data
 '''
+import csv
+import json
 import requests
 from hashlib import sha256
 
 from database import database
+from exif_data import Metadata as meta
 from social_exception import socialException
 
 class Load():
@@ -52,21 +55,26 @@ class Load():
         else:
             raise socialException('Data Source not handled.')
         
-    def _load_tiktok(fname):
+    def _load_tiktok(self, fname):
         '''
         Handle Zeeschuimer export
         '''
 
         if fname.endswith('.csv'):
             with open(fname, 'r') as fh:
-                data = fh.read()
+                data = csv.reader(fh.read())
             
             db = database()
             project_id = self._create_hash(fname)
+
+            #projectid, threadid, author, unix_timestamp, music_name, music_id,
+            #music_url, video_url, hashtags
             for datum in range(1, len(data)):
-                db.insert_row(project_id, datum[0])
+                db.insert_row(project_id, datum[1], datum[2], datum[10], datum[13], datum[14],
+                              datum[15], datum[16], datum[17], datum[24])
+                
         else:
-            raise socialException('PLease convert with Zeehaven')
+            raise socialException('Please convert with Zeehaven')
         
     def _create_hash(self, fname):
         '''
