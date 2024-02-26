@@ -1,6 +1,7 @@
 import configparser
 from flask import Flask, request, render_template, jsonify, Response
 
+from database import database as db
 from load import Load
 
 app = Flask(__name__)
@@ -45,6 +46,6 @@ def project(id):
         return render_template('project.html', projects = projects)
     else:
         #get data by proect id
-        #projects = get_data_by_id
+        projects = db.get_data_by_id(id)
         return render_template('timeline.html', projects = [])
   
