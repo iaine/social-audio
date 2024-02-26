@@ -70,8 +70,10 @@ class Load():
             #projectid, threadid, author, unix_timestamp, music_name, music_id,
             #music_url, video_url, hashtags
             for datum in range(1, len(data)):
-                db.insert_row(project_id, datum[1], datum[2], datum[10], datum[13], datum[14],
-                              datum[15], datum[16], datum[17], datum[24])
+                db.insert_row(project_id, datum[1], datum[2], datum[10], datum[13], 
+                              datum[14], datum[15], datum[16], datum[17], datum[24])
+                meta.download(project_id, fname)
+                
                 
         else:
             raise socialException('Please convert with Zeehaven')
