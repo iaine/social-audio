@@ -1,5 +1,5 @@
 import configparser
-from flask import Flask, request, render_template, jsonify, Response
+from flask import Flask, request, render_template, Response, url_for
 
 from database import database as db
 from load import Load
@@ -19,12 +19,12 @@ def load():
         return render_template('load.html')
     elif request.method == "POST":
         fname = request.form["media"]
-
+        project = ''
         if fname.startswith('zeeschuimer'):
-            Load().load_zeeschuimer(fname)
+            project = Load().load_zeeschuimer(fname)
         else:
-            Load().load(fname)
-        return render_template('load.html')
+            project = Load().load(fname)
+        return url_for('project.html', id=project)
     else:
         return render_template('load.html')
     
@@ -47,5 +47,5 @@ def project(id):
     else:
         #get data by proect id
         projects = db.get_data_by_id(id)
-        return render_template('timeline.html', projects = [])
+        return render_template('timeline.html')
   
