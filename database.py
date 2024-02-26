@@ -8,7 +8,7 @@ class database():
     def __init__(self, app) -> None:
         self.con = sqlite3.connect(app.config['database'])
         cur = self.con.cursor()
-        cur.execute("""CREATE TABLE IF NOT EXISTS some_table 
+        cur.execute("""CREATE TABLE IF NOT EXISTS main 
                     (id INTEGER PRIMARY KEY AUTOINCREMENT, ...);""")
 
     def _check_db_exists(self):
@@ -16,9 +16,16 @@ class database():
         A quick check to create the table if it doesn't exist
         '''
         cur = self.con.cursor()
-        cur.execute("""CREATE TABLE IF NOT EXISTS audio 
+        cur.execute("""CREATE TABLE IF NOT EXISTS main 
                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    
+                    projectid VARCHAR(255), 
+                    threadid VARCHAR(255),
+                    author VARCHAR(255), 
+                    unix_timestamp VARCHAR(255),
+                    music_name VARCHAR(255), 
+                    music_url VARCHAR(255), 
+                    video_url VARCHAR(255), 
+                    hashtags VARCHAR(255),
                     );""")
         
         cur.execute("""CREATE TABLE IF NOT EXISTS user_tags 
@@ -28,18 +35,21 @@ class database():
                     );""")
 
 
-    def insert_row(self):
+    def insert_row(self, projectid, threadid, author, unix_timestamp, music_name, music_id,
+                   music_url, video_url, hashtags):
         '''
            Insert row from CSV
         '''
         cur = self.con.cursor()
-
+        #project, threadid, author, unix_timestamp, music_name, music_id, 
+        #music_url, video_url, hashtags
         cur.execute("""
-        INSERT INTO movie VALUES
-        ('Monty Python and the Holy Grail', 1975, 8.2),
-        ('And Now for Something Completely Different', 1971, 7.5)
-        """)
+        INSERT INTO main VALUES
+        ({}, {}, {}, {}, {}, {}, {}, {}, {})
+        """.format(projectid, threadid, author, unix_timestamp, music_name, music_id,
+                   music_url, video_url, hashtags))
         self.con.commit()
+        cur.close()
 
     def insert_tags(self, filename, tag):
         '''
