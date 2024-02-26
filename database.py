@@ -24,19 +24,29 @@ class database():
                     unix_timestamp VARCHAR(255),
                     music_name VARCHAR(255), 
                     music_url VARCHAR(255), 
+                    music_thumb  VARCHAR(255), 
+                    music_author  VARCHAR(255),
                     video_url VARCHAR(255), 
                     hashtags VARCHAR(255),
                     );""")
         
         cur.execute("""CREATE TABLE IF NOT EXISTS user_tags 
                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    projectid VARCHAR(255), 
                     file VARCHAR(255), 
                     tags VARCHAR(255),
+                    );""")
+        
+        cur.execute("""CREATE TABLE IF NOT EXISTS features 
+                    (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    projectid VARCHAR(255), 
+                    feature VARCHAR(255), 
+                    value VARCHAR(255),
                     );""")
         cur.close()
 
     def insert_row(self, projectid, threadid, author, unix_timestamp, music_name, music_id,
-                   music_url, video_url, hashtags):
+                   music_url, music_thumb, music_author, video_url, hashtags):
         '''
            Insert row from CSV
         '''
@@ -47,11 +57,11 @@ class database():
         INSERT INTO main VALUES
         ({}, {}, {}, {}, {}, {}, {}, {}, {})
         """.format(projectid, threadid, author, unix_timestamp, music_name, music_id,
-                   music_url, video_url, hashtags))
+                   music_url, music_thumb, music_author, video_url, hashtags))
         self.con.commit()
         cur.close()
 
-    def insert_tags(self, filename, tag):
+    def insert_tags(self, projectid, filename, tag):
         '''
            Insert into tag table
         '''
@@ -59,8 +69,21 @@ class database():
 
         cur.execute("""
         INSERT INTO user_tag VALUES
-        ({}, {}).
-         """.format(filename, tag))
+        ({}, {}, {}).
+         """.format(projectid, filename, tag))
+        self.con.commit()
+        cur.close()
+
+    def insert_features(self, projectid, field, value):
+        '''
+           Insert into feature table
+        '''
+        cur = self.con.cursor()
+
+        cur.execute("""
+        INSERT INTO features VALUES
+        ({}, {}, {}).
+         """.format(projectid, field, value))
         self.con.commit()
         cur.close()
 
